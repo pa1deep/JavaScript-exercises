@@ -100,6 +100,20 @@
         console.log("PART 3...")
 
 
+        function simulateInvestment(initialBalance, targetBalance, meanReturn, stdDev) {
+            let balance = initialBalance;
+            let year = 0;
+            const rateGenerator = d3.randomNormal(meanReturn, stdDev);
+
+            while (balance < targetBalance) {
+                const rate = rateGenerator();
+                year++;
+                balance = balance * (1 + rate);
+            }
+
+            console.log("Years:", year);
+            console.log("Ending Balance:", formatUSD(balance));
+        }
 
 
     </script>

@@ -66,7 +66,7 @@
     <div id="display-company-info">
         <p>Name: <span id="display-name">TODO</span></p>
         <p>Description: <span id="display-description">TODO</span></p>
-        <p>Website: <a id="display-link" href="#TODO">TODO</span></p>
+        <p>Website: <a id="display-link" href="#TODO">TODO</a></p>
     </div>
 
 
@@ -78,50 +78,65 @@
         // AVOID HARD-CODING THE CREDENTIALS
         // USE SESSION STORAGE TO MINIMIZE THE NUMBER OF TIMES WE HAVE TO PROVIDE THE CREDENTIAL
         // check session storage for the API Key:
-        var apiKey = sessionStorage.getItem("ALPHAVANTAGE_API_KEY")
+        var apiKey = sessionStorage.getItem("ALPHAVANTAGE_API_KEY");
         if (!apiKey) {
             // if it isn't there, ask the user to supply it:
-            apiKey = prompt("Please enter your AlphaVantage API key:")
+            apiKey = prompt("Please enter your AlphaVantage API key:");
             // store it in the session for later (so it will persist after refreshing the page)
-            sessionStorage.setItem("ALPHAVANTAGE_API_KEY", apiKey)
+            sessionStorage.setItem("ALPHAVANTAGE_API_KEY", apiKey);
         }
 
-
+        const inputSymbol = document.getElementById("input-symbol");
+        const lookupButton = document.getElementById("lookup");
+        const displayNameSpan = document.getElementById("display-name");
+        const displayDescriptionSpan = document.getElementById("display-description");
+        const displayLinkA = document.getElementById("display-link");
 
         // FUNCTION DEFINITION
         function lookupCompany() {
-            var symbol = inputSymbol.value
-            console.log("SYMBOL:", symbol)
+            var symbol = inputSymbol.value;
+            console.log("SYMBOL:", symbol);
 
-            var requestUrl = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${apiKey}`
+            var requestUrl = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${apiKey}`;
             d3.json(requestUrl).then(function(data) {
-                console.log("RESPONSE:", data)
+                console.log("RESPONSE:", data);
 
-                console.log("---------------------")
-                console.log("PART 1...")
+                console.log("---------------------");
+                console.log("PART 1...");
 
+                if (data) {
+                    // 4. Display company information
+                    console.log("Company Name:", data.Name);
+                    console.log("Description:", data.Description);
+                    console.log("Website URL:", data.Website);
+                }
 
+                console.log("---------------------");
+                console.log("PART 2...");
 
-
-
-
-                console.log("---------------------")
-                console.log("PART 2...")
-
-
-
-
+                if (data) {
+                    // Display in designated areas
+                    displayNameSpan.textContent = data.Name || "N/A";
+                    displayDescriptionSpan.textContent = data.Description || "N/A";
+                    const website = data.Website || "#";
+                    displayLinkA.href = website;
+                    displayLinkA.textContent = website;
+                }
 
             }).catch(function(error) {
-                console.error("ERROR:", error)
-            })
+                console.error("ERROR:", error);
+                displayNameSpan.textContent = "Error";
+                displayDescriptionSpan.textContent = "Error fetching data.";
+                displayLinkA.href = "#error";
+                displayLinkA.textContent = "Error";
+            });
         }
 
         // FUNCTION INVOCATIONS
         // invoke function when the page loads:
-        //lookupCompany()
+        lookupCompany();
         // invoke function when button is clicked:
-        //lookupButton.addEventListener("click", lookupCompany, false)
+        lookupButton.addEventListener("click", lookupCompany);
 
     </script>
 </body>

@@ -127,6 +127,57 @@
         console.log("---------------------")
         console.log("PART 2...")
 
+        const rideshare = {
+        driver: {
+          first_name: "Danny",
+          last_name: "Meyer"
+        },
+        vehicle: {
+          make: "Toyota",
+          model: "Prius",
+          license_plate: "ABC-1234"
+        },
+        stops: [
+          {
+            destination: "Logan Circle",
+            passenger: "Vishal",
+            fare: 7.50
+          },
+          {
+            destination: "U Street",
+            passenger: "Clara",
+            fare: 5.25
+          },
+          {
+            destination: "Washington Circle",
+            passenger: "Lee",
+            fare: 9.00
+          }
+        ]
+      };
+
+      console.log("---------------------");
+      console.log("PART 2...");
+
+
+      const driverFirstNameElement = document.getElementById("driver-name");
+      driverFirstNameElement.textContent = rideshare.driver.first_name;
+      console.log("Driver First Name:", rideshare.driver.first_name);
+
+
+      const vehicleInfoElement = document.getElementById("vehicle-info");
+      const vehicleInfo = `${rideshare.vehicle.make} ${rideshare.vehicle.model} (${rideshare.vehicle.license_plate})`;
+      vehicleInfoElement.textContent = vehicleInfo;
+      console.log("Vehicle Info:", vehicleInfo);
+
+      const passengersListElement = document.getElementById("passengers-list");
+      rideshare.stops.forEach(stop => {
+        const listItem = document.createElement("li");
+        listItem.textContent = stop.passenger;
+        passengersListElement.appendChild(listItem);
+        console.log("Passenger:", stop.passenger);
+      });
+
     </script>
 
 </body>

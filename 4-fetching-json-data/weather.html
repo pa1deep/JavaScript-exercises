@@ -84,24 +84,79 @@
 
         fetch(requestUrl).then(response => response.json())
             .then(function(data){
-                console.log("DATA", data)
+                console.log("DATA", data);
 
+                console.log("---------------------");
+                console.log("PART 1...");
 
-                console.log("---------------------")
-                console.log("PART 1...")
+                // B) Display the date this data was generated
+                console.log("B) Date Generated:", data.properties.generatedAt.split("T")[0]);
 
+                // C) Display the number of periods
+                console.log("C) Number of Periods:", data.properties.periods.length);
 
+                // D) Filter for daytime periods
+                var daytimePeriods = data.properties.periods.filter(function(period) {
+                    return period.isDaytime;
+                });
 
+                // E) Display the number of daytime periods
+                console.log("E) Number of Daytime Periods:", daytimePeriods.length);
 
-                console.log("---------------------")
-                console.log("PART 2...")
+                // F) Display forecast for each daytime period
+                console.log("F) Daytime Forecasts:");
+                daytimePeriods.forEach(function(period) {
+                    console.log(`${period.name}: ${period.temperature}${degreeSymbol}${period.temperatureUnit}, ${period.shortForecast || period.detailedForecast}`);
+                });
 
+                console.log("---------------------");
+                console.log("PART 2...");
 
+                // A) Display the date this data was generated
+                document.getElementById("display-date").textContent = data.properties.generatedAt.split("T")[0];
 
+                // B) Display a seven day forecast in a table (using daytime periods)
+                var forecastTable = document.getElementById("display-forecast");
+                var thead = forecastTable.createTHead();
+                var headerRow = thead.insertRow();
+
+                var headers = ["Period", "Temperature", "Forecast", "Icon"];
+                headers.forEach(function(headerText) {
+                    var th = document.createElement("th");
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+
+                var tbody = forecastTable.createTBody();
+                daytimePeriods.forEach(function(period) {
+                    var row = tbody.insertRow();
+
+                    var periodCell = row.insertCell();
+                    periodCell.textContent = period.name;
+
+                    var tempCell = row.insertCell();
+                    tempCell.textContent = `${period.temperature}${degreeSymbol}${period.temperatureUnit}`;
+
+                    var forecastCell = row.insertCell();
+                    forecastCell.textContent = period.shortForecast || period.detailedForecast;
+
+                    var iconCell = row.insertCell();
+                    var iconImg = document.createElement("img");
+                    iconImg.src = period.icon;
+                    iconImg.alt = period.shortForecast;
+                    iconImg.style.width = '50px'; // Adjust size as needed
+                    iconCell.appendChild(iconImg);
+                });
 
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log("Fetch Error:", err));
 
     </script>
 </body>
 </html>
+
+
+
+
+
+

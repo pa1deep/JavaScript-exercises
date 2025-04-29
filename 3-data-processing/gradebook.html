@@ -44,7 +44,7 @@
     <script src="https://d3js.org/d3-array.v2.min.js"></script>
     <script type="text/javascript">
 
-        var gradebook = {
+var gradebook = {
             "downloadDate": "2021-06-05",
             "professorId": 123,
             "students":[
@@ -60,24 +60,61 @@
                 {"studentId": 10, "name": "Student 10", "finalGrade": 92.5}
             ]
         }
+        console.log("---------------------");
+        console.log("PART 1...");
 
-        console.log("---------------------")
-        console.log("PART 1...")
+        // A) Display the download date
+        console.log("A) Download Date:", gradebook.downloadDate);
 
+        // B) Display the number of students
+        console.log("B) Number of Students:", gradebook.students.length);
 
+        // C) Loop through each student and display their name and grade
+        console.log("C) Student Names and Grades:");
+        gradebook.students.forEach(function(student) {
+            console.log(student.name + ": " + student.finalGrade);
+        });
 
+        // D) Use a mapping operation to get an array of grades
+        var grades = gradebook.students.map(function(student) {
+            return student.finalGrade;
+        });
+        console.log("D) Grades Array:", grades);
 
+        // E) Calculate and display the average grade
+        var averageGrade = d3.mean(grades);
+        console.log("E) Average Grade:", averageGrade.toFixed(2));
 
+        // F) Calculate and display the median grade
+        var medianGrade = d3.median(grades);
+        console.log("F) Median Grade:", medianGrade.toFixed(1));
 
-        console.log("---------------------")
-        console.log("PART 2...")
+        console.log("---------------------");
+        console.log("PART 2...");
 
+        var displayGradebookTable = document.getElementById("display-gradebook");
+        var thead = displayGradebookTable.createTHead();
+        var headerRow = thead.insertRow();
 
+        var headers = ["Student ID", "Student Name", "Final Grade"];
+        headers.forEach(function(headerText) {
+            var th = document.createElement("th");
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
 
+        var tbody = displayGradebookTable.createTBody();
+        gradebook.students.forEach(function(student) {
+            var row = tbody.insertRow();
+            var studentIdCell = row.insertCell();
+            var studentNameCell = row.insertCell();
+            var finalGradeCell = row.insertCell();
 
-
+            studentIdCell.textContent = student.studentId;
+            studentNameCell.textContent = student.name;
+            finalGradeCell.textContent = student.finalGrade;
+        });
 
     </script>
-
 </body>
 </html>

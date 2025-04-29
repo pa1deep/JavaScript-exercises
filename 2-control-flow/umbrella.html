@@ -59,7 +59,7 @@
     <input type="checkbox" id="switch-umbrella" checked>
     <br>
 
-    <button id="advise">Advise</button>
+    <button id="advise-button">Advise</button>
 
     <br>
     <label>Message:</label>
@@ -68,26 +68,59 @@
 
     <script type="text/javascript">
 
-        console.log("---------------------")
-        console.log("PART 1...")
+        console.log("---------------------");
+        console.log("PART 1...");
 
+        var isRaining = true; // Or false, your choice
+        console.log("Is it raining?", isRaining);
 
+        var ownsUmbrella = false; // Or true, your choice
+        console.log("Do you own an umbrella?", ownsUmbrella);
 
+        if (!isRaining) {
+            console.log("Skies are clear");
+        } else {
+            if (ownsUmbrella) {
+                console.log("Bring your umbrella");
+            } else {
+                console.log("Buy an umbrella");
+            }
+        }
 
+        console.log("---------------------");
+        console.log("PART 2...");
 
-        console.log("---------------------")
-        console.log("PART 2...")
+        function advise(isRaining, ownsUmbrella) {
+            if (!isRaining) {
+                return "Skies are clear";
+            } else {
+                if (ownsUmbrella) {
+                    return "Bring your umbrella";
+                } else {
+                    return "Buy an umbrella";
+                }
+            }
+        }
 
+        console.log("Scenario 1: Raining = true, Owns Umbrella = true =>", advise(true, true));
+        console.log("Scenario 2: Raining = true, Owns Umbrella = false =>", advise(true, false));
+        console.log("Scenario 3: Raining = false, Owns Umbrella = true =>", advise(false, true));
+        console.log("Scenario 4: Raining = false, Owns Umbrella = false =>", advise(false, false));
 
+        console.log("---------------------");
+        console.log("PART 3...");
 
+        var adviseButton = document.getElementById("advise-button");
+        var rainingCheckbox = document.getElementById("switch-raining");
+        var umbrellaCheckbox = document.getElementById("switch-umbrella");
+        var messageSpan = document.getElementById("display-message");
 
-
-        console.log("---------------------")
-        console.log("PART 3...")
-
-
-
-
+        adviseButton.addEventListener("click", function() {
+            var isItRaining = rainingCheckbox.checked;
+            var doesOwnUmbrella = umbrellaCheckbox.checked;
+            var adviceMessage = advise(isItRaining, doesOwnUmbrella);
+            messageSpan.textContent = adviceMessage;
+        });
 
     </script>
 </body>

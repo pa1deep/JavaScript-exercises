@@ -64,26 +64,56 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script type="text/javascript">
 
-        var requestUrl = "TODO"
+        // A) Store the URL for non-alcoholic drinks
+        var requestUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic";
 
         d3.json(requestUrl).then(function(data){
-            console.log("DATA:", data)
+            console.log("DATA:", data);
 
+            console.log("---------------------");
+            console.log("PART 1...");
 
-            console.log("---------------------")
-            console.log("PART 1...")
+            // C) Display the number of non-alcoholic drinks
+            console.log("C) Number of non-alcoholic drinks:", data.drinks ? data.drinks.length : 0);
 
+            // D) Loop through the drinks and display name and idDrink
+            console.log("D) Non-alcoholic drinks:");
+            if (data.drinks) {
+                data.drinks.forEach(function(drink) {
+                    console.log(drink.strDrink, drink.idDrink);
+                });
+            }
 
+            console.log("---------------------");
+            console.log("PART 2...");
 
+            // A) Display the number of drinks in the span
+            var drinksCountSpan = document.getElementById("display-drinks-count");
+            drinksCountSpan.textContent = data.drinks ? data.drinks.length : 0;
 
+            // B) Loop through the drinks and display name and image
+            var displayDrinksDiv = document.getElementById("display-drinks");
+            if (data.drinks) {
+                data.drinks.forEach(function(drink) {
+                    var drinkDiv = document.createElement("div");
 
-            console.log("---------------------")
-            console.log("PART 2...")
+                    var nameParagraph = document.createElement("p");
+                    nameParagraph.textContent = drink.strDrink;
+                    drinkDiv.appendChild(nameParagraph);
 
+                    var imageElement = document.createElement("img");
+                    imageElement.src = drink.strDrinkThumb;
+                    imageElement.alt = drink.strDrink;
+                    imageElement.style.height = "100px";
+                    drinkDiv.appendChild(imageElement);
 
+                    displayDrinksDiv.appendChild(drinkDiv);
+                });
+            }
 
-
-        })
+        }).catch(function(error) {
+            console.error("ERROR:", error);
+        });
 
     </script>
 </body>

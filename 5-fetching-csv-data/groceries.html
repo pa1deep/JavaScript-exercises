@@ -76,32 +76,68 @@
         var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 
         d3.csv(requestUrl).then(function(data) {
-            console.log("DATA:", data)
-            var products = data
+            console.log("DATA:", data);
+            var products = data;
 
-            console.log("---------------------")
-            console.log("PART 1...")
+            console.log("---------------------");
+            console.log("PART 1...");
 
+            // 2. Display the number of products
+            console.log(products.length);
 
+            // 3. Loop through the products and display the name and price
+            console.log("Product Names and Prices:");
+            products.forEach(function(product) {
+                console.log(product.name + ": " + formatUSD(parseFloat(product.price)));
+            });
 
+            // 4. Arrive at a unique list of department names
+            var departments = [];
+            products.forEach(function(product) {
+                if (!departments.includes(product.department)) {
+                    departments.push(product.department);
+                }
+            });
 
+            // 5. Display the number of unique departments
+            console.log(departments.length);
 
+            // 6. Loop through the array of unique departments and display the name in upper-case
+            console.log("Unique Departments (Uppercase):");
+            departments.forEach(function(department) {
+                console.log(department.toUpperCase());
+            });
 
-            console.log("---------------------")
-            console.log("PART 2...")
+            // 7. Filter for beverages
+            var beverages = products.filter(function(product) {
+                return product.department === "beverages";
+            });
 
+            // 8. Display the number of beverage products
+            console.log(beverages.length);
 
+            // 9. Display the average price of all beverage products
+            var beveragePrices = beverages.map(function(beverage) {
+                return parseFloat(beverage.price);
+            });
+            var averageBeveragePrice = beveragePrices.reduce(function(sum, price) {
+                return sum + price;
+            }, 0) / beveragePrices.length;
+            console.log("Average Beverage Price:", formatUSD(averageBeveragePrice));
 
+            console.log("---------------------");
+            console.log("PART 2...");
 
+            var displayGroceriesUl = document.getElementById("display-groceries");
+            products.forEach(function(product) {
+                var listItem = document.createElement("li");
+                listItem.textContent = product.name + ": " + formatUSD(parseFloat(product.price));
+                displayGroceriesUl.appendChild(listItem);
+            });
 
-
-
-
-
-
-            }).catch(function(error) {
-                console.error("ERROR:", error)
-        })
+        }).catch(function(error) {
+            console.error("ERROR:", error);
+        });
 
     </script>
 </body>

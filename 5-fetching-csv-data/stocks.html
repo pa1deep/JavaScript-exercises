@@ -76,39 +76,61 @@
     <script type="text/javascript">
 
         function formatUSD(price) {
-            return `$${price.toFixed(2)}`
+            return `$${price.toFixed(2)}`;
         }
 
         function formatPct(percentage) {
-            return `${(percentage * 100).toFixed(2)}%`
+            return `${(percentage * 100).toFixed(2)}%`;
         }
 
-
-        var symbol = "NFLX" // one of: [AAPL, GOOGL, MSFT, NFLX, NVDA, SPOT]
-        var filename = `daily_adjusted_${symbol}.csv`
-        var requestUrl = `https://raw.githubusercontent.com/prof-rossetti/intro-software-dev-python-book/refs/heads/main/docs/data/${filename}`
+        var symbol = "NFLX"; // one of: [AAPL, GOOGL, MSFT, NFLX, NVDA, SPOT]
+        var filename = `daily_adjusted_${symbol}.csv`;
+        var requestUrl = `https://raw.githubusercontent.com/prof-rossetti/intro-software-dev-python-book/refs/heads/main/docs/data/${filename}`;
 
         d3.csv(requestUrl).then(function(data) {
-            console.log("DATA:", data)
+            console.log("DATA:", data);
 
-            console.log("---------------------")
-            console.log("PART 1...")
+            console.log("---------------------");
+            console.log("PART 1...");
 
+            // A) Display the number of days in the data
+            console.log("A)", data.length);
 
+            // Sort data by date (earliest first)
+            const sortedData = data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
+            // B) Display the date and adjusted closing price on the earliest day
+            const earliestData = sortedData[0];
+            console.log("B)", earliestData.timestamp, formatUSD(parseFloat(earliestData['adjusted_close'])));
 
+            // C) Display the date and adjusted closing price on the latest day
+            const latestData = sortedData[sortedData.length - 1];
+            console.log("C)", latestData.timestamp, formatUSD(parseFloat(latestData['adjusted_close'])));
 
-            console.log("---------------------")
-            console.log("PART 2...")
+            // D) Calculate the overall percent change
+            const earliestPrice = parseFloat(earliestData['adjusted_close']);
+            const latestPrice = parseFloat(latestData['adjusted_close']);
+            const percentChange = (latestPrice - earliestPrice) / earliestPrice;
+            console.log("D)", formatPct(percentChange));
 
+            console.log("---------------------");
+            console.log("PART 2...");
 
+            // Display elements
+            const displaySymbolSpan = document.getElementById("display-symbol");
+            const displayEarliestSpan = document.getElementById("display-earliest");
+            const displayLatestSpan = document.getElementById("display-latest");
+            const displayPctChangeSpan = document.getElementById("display-pct-change");
 
+            // A) Display the information in the designated spans
+            displaySymbolSpan.textContent = symbol;
+            displayEarliestSpan.textContent = `${earliestData.timestamp} (${formatUSD(earliestPrice)})`;
+            displayLatestSpan.textContent = `${latestData.timestamp} (${formatUSD(latestPrice)})`;
+            displayPctChangeSpan.textContent = formatPct(percentChange);
 
-
-
-            }).catch(function(error) {
-                console.error("ERROR:", error)
-        })
+        }).catch(function(error) {
+            console.error("ERROR:", error);
+        });
 
     </script>
 </body>

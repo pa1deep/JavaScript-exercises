@@ -62,17 +62,63 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+// A) Display the total number of products
+console.log("A) Total Number of Products:", products.length);
 
+// B) Loop through each product and display their name and price
+console.log("B) Product Names and Prices:");
+products.forEach(function(product) {
+    console.log(product.name);
+    console.log(product.price);
+});
 
+// C) Use a filter operation to get products with price less than $50
+var matchingProducts = products.filter(function(product) {
+    return product.price < 50;
+});
 
+// D) Display the total number of matching products
+console.log("D) Number of Matching Products (Price < $50):", matchingProducts.length);
 
+console.log("---------------------");
+console.log("PART 2...");
 
-        console.log("---------------------")
-        console.log("PART 2...")
+var displayProductsDiv = document.getElementById("display-products");
 
+products.forEach(function(product) {
+    // Create a div for each product
+    var productDiv = document.createElement("div");
 
+    // Create paragraph for name
+    var nameParagraph = document.createElement("p");
+    nameParagraph.textContent = "Name: " + product.name;
+    productDiv.appendChild(nameParagraph);
 
+    // Create paragraph for description
+    var descriptionParagraph = document.createElement("p");
+    descriptionParagraph.textContent = "Description: " + product.description;
+    productDiv.appendChild(descriptionParagraph);
 
-    </script>
+    // Create paragraph for price
+    var priceParagraph = document.createElement("p");
+    priceParagraph.textContent = "Price: $" + product.price.toFixed(2);
+    productDiv.appendChild(priceParagraph);
+
+    // Create image element
+    var imageElement = document.createElement("img");
+    imageElement.src = product.imageURL;
+    imageElement.style.width = '360px'; // Set a fixed width for the image
+    imageElement.style.height = '200px'; // Set a fixed height for the image
+    productDiv.appendChild(imageElement);
+
+    // Create horizontal rule
+    var hrElement = document.createElement("hr");
+    productDiv.appendChild(hrElement);
+
+    // Append the product div to the main display div
+    displayProductsDiv.appendChild(productDiv);
+});
+
+</script>
 </body>
 </html>
