@@ -1,13 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Rideshare</title>
+    <title>Rideshare: Inspired by Professor's solution</title>
 </head>
 <body>
 
-    <h1>Rideshare</h1>
+    <h1>Rideshare: Inspired by Professor's solution</h1>
     <a href="../index.html">Home</a>
 
     <h2>Part 1</h2>
@@ -87,96 +86,56 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        // A
+        console.log("DRIVER:", "Your driver is", trip.driver.first_name)
 
- //console.log(trip.driver)
+        // B
+        console.log("VEHICLE PLATE:", trip.vehicle.licensePlate)
 
-        // chained accessors:
-        console.log(trip.driver.first_name)
+        // C)
+        console.log("STOPS:", trip.stops.length)
 
-        // alternatively, take it step by step:
-        var d = trip.driver
-        console.log(d.first_name)
+        // D)
+        console.log("FIRST STOP:", trip.stops[0].destination)
 
+        // E)
+        console.log("LAST STOP:", trip.stops[trip.stops.length - 1].destination)
 
-        console.log("---------------------")
-        console.log("PART 2...")
-        console.log("C)")
-        console.log("NUMBER OF STOPS:", trip.stops.length)
-        console.log("D)")
-        //console.log(trip.stops[0])
-        // chained accessors:
-        console.log("FIRST DESTINATION:", trip.stops[0].destination)
-        // one step at a time:
-        var stops = trip.stops
-        var firstStop = stops[0]
-        console.log("FIRST DESTINATION:", firstStop.destination)
-
+        // F)
+        console.log("PASSENGERS:")
         trip.stops.forEach(function(stop){
-            console.log("--------")
-            console.log(stop.passenger)
-
+            console.log("...", stop.passenger)
         })
-    
-        console.log("G)")
 
+        // G)
         var fares = trip.stops.map(function(stop){
             return stop.fare
         })
         console.log("FARES:", fares)
 
+        // H
+        var totalFare = d3.sum(fares)
+        console.log("TOTAL FARE:", `$${totalFare.toFixed(2)}`)
+
+
+
         console.log("---------------------")
         console.log("PART 2...")
 
-        const rideshare = {
-        driver: {
-          first_name: "Danny",
-          last_name: "Meyer"
-        },
-        vehicle: {
-          make: "Toyota",
-          model: "Prius",
-          license_plate: "ABC-1234"
-        },
-        stops: [
-          {
-            destination: "Logan Circle",
-            passenger: "Vishal",
-            fare: 7.50
-          },
-          {
-            destination: "U Street",
-            passenger: "Clara",
-            fare: 5.25
-          },
-          {
-            destination: "Washington Circle",
-            passenger: "Lee",
-            fare: 9.00
-          }
-        ]
-      };
+        // A) Display the driver's first name
+        document.getElementById("display-driver").textContent = trip.driver.first_name
 
-      console.log("---------------------");
-      console.log("PART 2...");
+        // B) Display the vehicle's make, model, and license plate number
+        var vehicle = trip.vehicle
+        document.getElementById("display-vehicle").textContent = `${vehicle.make} ${vehicle.model} [${vehicle.licensePlate}]`
 
-
-      const driverFirstNameElement = document.getElementById("driver-name");
-      driverFirstNameElement.textContent = rideshare.driver.first_name;
-      console.log("Driver First Name:", rideshare.driver.first_name);
-
-
-      const vehicleInfoElement = document.getElementById("vehicle-info");
-      const vehicleInfo = `${rideshare.vehicle.make} ${rideshare.vehicle.model} (${rideshare.vehicle.license_plate})`;
-      vehicleInfoElement.textContent = vehicleInfo;
-      console.log("Vehicle Info:", vehicleInfo);
-
-      const passengersListElement = document.getElementById("passengers-list");
-      rideshare.stops.forEach(stop => {
-        const listItem = document.createElement("li");
-        listItem.textContent = stop.passenger;
-        passengersListElement.appendChild(listItem);
-        console.log("Passenger:", stop.passenger);
-      });
+        // C) Loop through each of the stops and display each passenger's name in a list item
+        var ol = document.getElementById("display-passengers")
+        trip.stops.forEach(stop => {
+            var li = document.createElement("li")
+            li.textContent = stop.passenger
+            ol.appendChild(li)
+        })
 
     </script>
 
